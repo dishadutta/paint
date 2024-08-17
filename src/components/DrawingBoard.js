@@ -20,7 +20,6 @@ const DrawingBoard = ({
   }, [])
 
   const setCanvasBackground = () => {
-    // Setting canvas background to white
     ctxRef.current.fillStyle = '#fff'
     ctxRef.current.fillRect(
       0,
@@ -28,7 +27,7 @@ const DrawingBoard = ({
       canvasRef.current.width,
       canvasRef.current.height
     )
-    ctxRef.current.fillStyle = selectedColor // Resetting fillStyle back to the selected color
+    ctxRef.current.fillStyle = selectedColor // Reset fillStyle to current color
   }
 
   const startDrawing = (e) => {
@@ -88,6 +87,7 @@ const DrawingBoard = ({
     isDrawing = false
   }
 
+  // Function to clear the canvas
   const clearCanvas = () => {
     ctxRef.current.clearRect(
       0,
@@ -95,18 +95,27 @@ const DrawingBoard = ({
       canvasRef.current.width,
       canvasRef.current.height
     )
-    setCanvasBackground() // Reset the background after clearing
+    setCanvasBackground() // Reset canvas background to white
+
+    // Update the snapshot to the cleared canvas
+    snapshot = ctxRef.current.getImageData(
+      0,
+      0,
+      canvasRef.current.width,
+      canvasRef.current.height
+    )
   }
 
+  // Function to save the canvas as an image
   const saveImage = () => {
     const link = document.createElement('a')
-    link.download = `${Date.now()}.jpg`
-    link.href = canvasRef.current.toDataURL()
-    link.click()
+    link.download = `canvas_image_${Date.now()}.png`
+    link.href = canvasRef.current.toDataURL() // Generate the image data URL
+    link.click() // Trigger the download
   }
 
   return (
-    <>
+    <div className='drawing-container'>
       <section className='drawing-board'>
         <canvas
           ref={canvasRef}
@@ -115,7 +124,7 @@ const DrawingBoard = ({
           onMouseUp={stopDrawing}
         ></canvas>
       </section>
-      <div className='row buttons'>
+      <div className='buttons'>
         <button className='clear-canvas' onClick={clearCanvas}>
           Clear Canvas
         </button>
@@ -123,7 +132,7 @@ const DrawingBoard = ({
           Save As Image
         </button>
       </div>
-    </>
+    </div>
   )
 }
 
