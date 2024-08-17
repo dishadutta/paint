@@ -1,4 +1,3 @@
-// src/components/DrawingBoard.js
 import React, { useRef, useEffect } from 'react'
 
 const DrawingBoard = ({
@@ -6,8 +5,6 @@ const DrawingBoard = ({
   brushWidth,
   selectedColor,
   fillColor,
-  clearCanvasHandler,
-  saveImageHandler,
 }) => {
   const canvasRef = useRef(null)
   const ctxRef = useRef(null)
@@ -19,9 +16,20 @@ const DrawingBoard = ({
     canvas.width = canvas.offsetWidth
     canvas.height = canvas.offsetHeight
     ctxRef.current = canvas.getContext('2d')
-    ctxRef.current.fillStyle = '#fff'
-    ctxRef.current.fillRect(0, 0, canvas.width, canvas.height)
+    setCanvasBackground()
   }, [])
+
+  const setCanvasBackground = () => {
+    // Setting canvas background to white
+    ctxRef.current.fillStyle = '#fff'
+    ctxRef.current.fillRect(
+      0,
+      0,
+      canvasRef.current.width,
+      canvasRef.current.height
+    )
+    ctxRef.current.fillStyle = selectedColor // Resetting fillStyle back to the selected color
+  }
 
   const startDrawing = (e) => {
     isDrawing = true
@@ -87,13 +95,7 @@ const DrawingBoard = ({
       canvasRef.current.width,
       canvasRef.current.height
     )
-    ctxRef.current.fillStyle = '#fff'
-    ctxRef.current.fillRect(
-      0,
-      0,
-      canvasRef.current.width,
-      canvasRef.current.height
-    )
+    setCanvasBackground() // Reset the background after clearing
   }
 
   const saveImage = () => {
@@ -104,14 +106,24 @@ const DrawingBoard = ({
   }
 
   return (
-    <section className='drawing-board'>
-      <canvas
-        ref={canvasRef}
-        onMouseDown={startDrawing}
-        onMouseMove={draw}
-        onMouseUp={stopDrawing}
-      ></canvas>
-    </section>
+    <>
+      <section className='drawing-board'>
+        <canvas
+          ref={canvasRef}
+          onMouseDown={startDrawing}
+          onMouseMove={draw}
+          onMouseUp={stopDrawing}
+        ></canvas>
+      </section>
+      <div className='row buttons'>
+        <button className='clear-canvas' onClick={clearCanvas}>
+          Clear Canvas
+        </button>
+        <button className='save-img' onClick={saveImage}>
+          Save As Image
+        </button>
+      </div>
+    </>
   )
 }
 

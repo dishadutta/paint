@@ -1,8 +1,7 @@
-// src/App.js
 import React, { useState } from 'react'
 import ToolsBoard from './components/ToolsBoard'
 import DrawingBoard from './components/DrawingBoard'
-import './index.css'
+import './App.css'
 
 const App = () => {
   const [selectedTool, setSelectedTool] = useState('brush')
@@ -17,9 +16,10 @@ const App = () => {
         setSelectedTool={setSelectedTool}
         brushWidth={brushWidth}
         setBrushWidth={setBrushWidth}
+        selectedColor={selectedColor}
+        setSelectedColor={setSelectedColor}
         fillColor={fillColor}
         setFillColor={setFillColor}
-        setSelectedColor={setSelectedColor}
       />
       <DrawingBoard
         selectedTool={selectedTool}

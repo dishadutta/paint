@@ -104,15 +104,6 @@ const ToolsBoard = ({
           </li>
         </ul>
       </div>
-
-      <div className='row buttons'>
-        <button className='clear-canvas' onClick={clearCanvas}>
-          Clear Canvas
-        </button>
-        <button className='save-img' onClick={saveImage}>
-          Save As Image
-        </button>
-      </div>
     </section>
   )
 }
